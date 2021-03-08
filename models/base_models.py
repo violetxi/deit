@@ -10,9 +10,6 @@ from model_tools.check_submission import check_models
 sys.path.append('../')
 import deit_models as models
 
-"""
-Template module for a base model submission to brain-score
-"""
 
 ALL_MODELS = [
     'deit_tiny_patch16_224', 'deit_small_patch16_224', 'deit_base_patch16_224',
@@ -20,6 +17,7 @@ ALL_MODELS = [
     'deit_base_distilled_patch16_224', 'deit_base_patch16_384',
     'deit_base_distilled_patch16_384',
 ]
+
 
 def get_model_list():
     return ALL_MODELS
@@ -29,17 +27,16 @@ def get_model(name):
     model_func = getattr(models, name)
     model = model_func(pretrained=True)
     model.eval()
-    preprocessing = functools.partial(load_preprocess_images, image_size=224)
-    wrapper = PytorchWrapper(identifier='deit', model=model, preprocessing=preprocessing)
-    wrapper.image_size = 224
+    image_size = int(name.split('_')[-1])
+    preprocessing = functools.partial(load_preprocess_images, image_size=image_size)
+    wrapper = PytorchWrapper(identifier='deit', model=model, preprocessing=preprocessing)    
+    wrapper.image_size = image_size
     return wrapper
-
 
 def get_layers(name):
     assert name in ALL_MODELS
     num_of_blocks = 12
     return [f'blocks.{i}.mlp.fc2' for i in range(num_of_blocks)]
-
 
 def get_bibtex(model_identifier):
     return """@article{touvron2020deit,
