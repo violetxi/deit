@@ -26,7 +26,8 @@ def get_model_list():
 
 def get_model(name):
     assert name in ALL_MODELS
-    model = models.deit_base_distilled_patch16_224(pretrained=True)
+    model_func = getattr(models, name)
+    model = model_func(pretrained=True)
     model.eval()
     preprocessing = functools.partial(load_preprocess_images, image_size=224)
     wrapper = PytorchWrapper(identifier='deit', model=model, preprocessing=preprocessing)
@@ -42,10 +43,11 @@ def get_layers(name):
 
 def get_bibtex(model_identifier):
     return """@article{touvron2020deit,
-                    title={Training data-efficient image transformers & distillation through attention},
-                    author={Hugo Touvron and Matthieu Cord and Matthijs Douze and Francisco Massa and Alexandre Sablayrolles and Herv\'e J\'egou},
-                    journal={arXiv preprint arXiv:2012.12877},
-                    year={2020}}"""
+    title={Training data-efficient image transformers & distillation through attention},
+    author={Hugo Touvron and Matthieu Cord and Matthijs Douze and Francisco Massa and Alexandre Sablayrolles and Herv\'e J\'egou},
+    journal={arXiv preprint arXiv:2012.12877},
+    year={2020}
+    }"""
 
 
 if __name__ == '__main__':
