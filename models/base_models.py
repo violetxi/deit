@@ -29,7 +29,7 @@ def get_model(name):
     model.eval()
     image_size = int(name.split('_')[-1])
     preprocessing = functools.partial(load_preprocess_images, image_size=image_size)
-    wrapper = PytorchWrapper(identifier='deit', model=model, preprocessing=preprocessing)    
+    wrapper = PytorchWrapper(identifier=name, model=model, preprocessing=preprocessing)    
     wrapper.image_size = image_size
     return wrapper
 
