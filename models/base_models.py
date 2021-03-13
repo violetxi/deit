@@ -11,12 +11,17 @@ sys.path.append('../')
 import deit_models as models
 
 
-ALL_MODELS = [
-    'deit_tiny_patch16_224', 'deit_small_patch16_224', 'deit_base_patch16_224',
-    'deit_tiny_distilled_patch16_224', 'deit_small_distilled_patch16_224',
-    'deit_base_distilled_patch16_224', 'deit_base_patch16_384',
-    'deit_base_distilled_patch16_384',
-]
+ALL_MODELS_FUNC_DICT = {
+    'deit_tiny_patch16_224_id': 'deit_tiny_patch16_224',
+    'deit_small_patch16_224_id': 'deit_small_patch16_224',
+    'deit_base_patch16_224_id': 'deit_base_patch16_224',
+    'deit_tiny_distilled_patch16_224_id': 'deit_tiny_distilled_patch16_224',
+    'deit_small_distilled_patch16_224_id': 'deit_small_distilled_patch16_224',
+    'deit_base_distilled_patch16_224_id': 'deit_base_distilled_patch16_224',
+    'deit_base_patch16_384_id': 'deit_base_patch16_384',
+    'deit_base_distilled_patch16_384_id': 'deit_base_distilled_patch16_384',
+}
+ALL_MODELS = list(ALL_MODELS_FUNC_DICT.keys())
 
 
 def get_model_list():
@@ -24,10 +29,11 @@ def get_model_list():
 
 def get_model(name):
     assert name in ALL_MODELS
-    model_func = getattr(models, name)
+    func_name = ALL_MODELS_FUNC_DICT[name]
+    model_func = getattr(models, func_name)
     model = model_func(pretrained=True)
     model.eval()
-    image_size = int(name.split('_')[-1])
+    image_size = int(func_name.split('_')[-1])
     preprocessing = functools.partial(load_preprocess_images, image_size=image_size)
     wrapper = PytorchWrapper(identifier=name, model=model, preprocessing=preprocessing)    
     wrapper.image_size = image_size
