@@ -12,13 +12,6 @@ import deit_models as models
 
 
 ALL_MODELS_FUNC_DICT = {
-    'deit_tiny_patch16_224_id': 'deit_tiny_patch16_224',
-    'deit_small_patch16_224_id': 'deit_small_patch16_224',
-    'deit_base_patch16_224_id': 'deit_base_patch16_224',
-    'deit_tiny_distilled_patch16_224_id': 'deit_tiny_distilled_patch16_224',
-    'deit_small_distilled_patch16_224_id': 'deit_small_distilled_patch16_224',
-    'deit_base_distilled_patch16_224_id': 'deit_base_distilled_patch16_224',
-    'deit_base_patch16_384_id': 'deit_base_patch16_384',
     'deit_base_distilled_patch16_384_id': 'deit_base_distilled_patch16_384',
 }
 ALL_MODELS = list(ALL_MODELS_FUNC_DICT.keys())
